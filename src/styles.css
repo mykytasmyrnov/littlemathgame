@@ -1,1 +1,35 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  font-size: 16px;
+  font-family: 'Open Sans';
+  --text-primary: #b6b6b6;
+  --text-secondary: #ececec;
+  --bg-primary: #d9dce2;
+  --bg-secondary: #141418;
+  --transition-speed: 600ms;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+   -khtml-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+button {
+  position: relative;
+  background: white;
+  color: inherit;
+  outline: none;
+  background: inherit;
+  cursor: pointer;
+  height: 100%;
+  height: 48px;
+  border: 2px solid #d9dce2;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: var(--bg-primary);
+}
