@@ -4,6 +4,7 @@ import { AppComponent }             from './app.component';
 import { BrowserAnimationsModule }  from '@angular/platform-browser/animations';
 import { MatIconModule }            from '@angular/material/icon';
 import { MatSnackBarModule }        from '@angular/material/snack-bar';
+import { MatSlideToggleModule }     from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { MatSnackBarModule }        from '@angular/material/snack-bar';
     BrowserModule,
     BrowserAnimationsModule,
     MatIconModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatSlideToggleModule
   ],
   providers: [],
   bootstrap: [AppComponent]

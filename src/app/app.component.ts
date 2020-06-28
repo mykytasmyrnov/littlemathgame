@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Subscription, timer } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 @Component({ selector: 'app-root', templateUrl: './app.component.html', styleUrls: ['./app.component.css'] })
 export class AppComponent {
@@ -14,13 +15,17 @@ export class AppComponent {
   subscriptionTimer: Subscription;
   level: number;
 
-  icons: string[] = ['accessibility', 'account_balance', 'anchor', 'build', 'grade', 'leaderboard', 'pets', 'schedule', 'phone', 'create'];
-  nums: number[];
+  showEmoji: boolean;
+  icons: Array<string> = ['accessibility', 'account_balance', 'anchor', 'build', 'grade', 'leaderboard', 'pets', 'schedule', 'phone', 'create'];
+  emoji: Array<string> = ['😂', '💩', '😈', '🤬', '🤙', '💃', '🐖', '🙈', '🍓', '🥑'];
+  nums: Array<number>;
 
   taskLeft: {left: number, operator: number, right: number};
   taskRight: {left: number, operator: number, right: number};
 
-  constructor(private _snackBar: MatSnackBar) {}
+  constructor(private _snackBar: MatSnackBar) {
+    this.showEmoji = true;
+  }
 
   public startGame(): void {
     if(this.subscriptionTimer) this.subscriptionTimer.unsubscribe();
@@ -128,9 +133,11 @@ export class AppComponent {
     }
   }
 
-  public showMessage(message: string) {
+  public showMessage(message: string): void {
     this._snackBar.open(message, 'Got ya', { duration: 2000 });
   }
+
+  public changeToggle(e: MatSlideToggleChange): void { this.showEmoji = e.checked; }
 
 
 }

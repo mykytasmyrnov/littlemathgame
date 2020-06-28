@@ -1,3 +1,16 @@
+.container, .top-container, .mid-container, .bot-container, .condition-block, .value-pair-val {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+
+.container, .top-container, .mid-container, .condition-block, .value-pair-val {
+  align-items: center;
+  justify-content: center;
+}
+
 .container {
   position: absolute;
   top: 0;
@@ -5,67 +18,97 @@
   height: 100%;
   width: 100%;
   overflow: hidden;
-
-  display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  background-color: var(--bg-primary);
+}
+
+.container-inner {
+  width: 50%;
 }
 
 .top-container, .mid-container, .bot-container {
-  /* border: 1px solid #f1f1f1; */
+  width: 100%;
+}
+
+.top-container, .mid-container {
+  flex-direction: row;
 }
 
 .mid-container {
-  display: flex;
-  flex-direction: row;
-  padding: 2em;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .condition-block {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 2em;
+  padding: 5%;
 }
 
 .condition {
-  border: 2px solid var(--bg-primary);
+  border: 2px solid var(--darker);
   border-radius: 5px;
   cursor: pointer;
 }
 
 .condition:hover {
-  background-color: var(--bg-primary);
+  background-color: var(--darker);
 }
 
 .bot-container {
-  display: flex;
   flex-direction: row;
-  border: 2px solid var(--bg-primary);
+  flex-wrap: wrap;
   border-radius: 5px;
+  justify-content: space-evenly;
+  box-shadow: var(--nm-shadow);
 }
 
 .value-pair {
   display: grid;
   grid-template-rows: 50% 50%;
-  padding: 2em;
-}
-
-.value-pair-val {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 1rem;
 }
 
 .sign {
   margin-left: 5px;
   margin-right: 5px;
-  font-size: 1.5em;
+  font-size: 1.5rem;
+}
+
+.accent {
+  color: var(--accent);
 }
 
 .critical-health {
 	animation: pulse 1s infinite;
+}
+
+span.emoji {
+  font-size: 1.8rem;
+}
+
+mat-slide-toggle {
+  margin-left: 1rem;
+}
+
+.credits {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  padding: 0.5rem;
+}
+
+@media screen and (max-width: 600px) {
+  .container-inner {
+    width: 90%;
+  }
+  .top-container {
+    justify-content: flex-start;
+    font-size: 0.8rem;
+  }
+  span.emoji {
+    font-size: 1.5rem;
+  }
 }
 
 @keyframes pulse {

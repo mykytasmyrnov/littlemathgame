@@ -1,67 +1,117 @@
 <div class="container">
 
-  <div class="top-container">
+  <div class="container-inner">
 
-    <div *ngIf="gameStatus == 0">
-      <button *ngIf="gameStatus == 0" type="button" name="button" (click)="startGame()">start game</button>
-      <p>Task:<br />Select the larger value between the left and right blocks.<br />You are given a limited time to perform calculations and selections.
+    <div class="top-container">
+
+      <div *ngIf="gameStatus == 0">
+        <button *ngIf="gameStatus == 0" type="button" name="button" class="main" (click)="startGame()">start game</button>
+        <mat-slide-toggle [checked]="showEmoji" (change)="changeToggle($event)">Emoji {{ showEmoji ? 'off' : 'on' }}</mat-slide-toggle>
+        <p>Task:<br />Select the larger value between the left and right blocks.<br />You are given a limited time to perform calculations and selections.
+      </div>
+
+      <div *ngIf="gameStatus == 1">
+        <button *ngIf="gameStatus == 1" type="button" name="button" class="main" (click)="stopGame()">stop game</button>
+        <mat-slide-toggle [checked]="showEmoji" (change)="changeToggle($event)">Emoji {{ showEmoji ? 'off' : 'on' }}</mat-slide-toggle>
+        <p>Lives: <mat-icon *ngFor="let l of [].constructor(gameLives)" [ngClass]="{'critical-health': gameLives < 3}">favorite</mat-icon></p>
+        <p>Time: {{ timeLeft }}</p>
+        <p>Level: {{ level }}</p>
+        <p>Click on a <b>larger</b> value:</p>
+      </div>
+
+      <div *ngIf="gameStatus == 2">
+        <p>Game over</p>
+        <p>Last level: {{ level }}</p>
+        <button *ngIf="gameStatus == 2" type="button" name="button" class="main" (click)="startGame()">start over</button>
+      </div>
+
+
     </div>
 
-    <div *ngIf="gameStatus == 1">
-      <button *ngIf="gameStatus == 1" type="button" name="button" (click)="stopGame()">stop game</button>
-      <p>Lives: <mat-icon *ngFor="let l of [].constructor(gameLives)" [ngClass]="{'critical-health': gameLives < 3}">favorite</mat-icon></p>
-      <p>Time: {{ timeLeft }}</p>
-      <p>Level: {{ level }}</p>
-      <p>Click on a <b>larger</b> value:</p>
-    </div>
-
-    <div *ngIf="gameStatus == 2">
-      <p>Game over</p>
-      <p>Your level: {{ level }}</p>
-      <button *ngIf="gameStatus == 2" type="button" name="button" (click)="startGame()">start over</button>
-    </div>
-
-  </div>
-
-  <div *ngIf="gameStatus == 0" class="mid-container">
-    <div class="condition-block condition" (click)="showMessage('First of all, start the game!')">
-        <mat-icon>accessibility</mat-icon><span class="sign">+</span><mat-icon>anchor</mat-icon>
-    </div>
-    <div class="condition-block">?</div>
-    <div class="condition-block condition" (click)="showMessage('First of all, start the game!')">
-        <mat-icon>build</mat-icon><span class="sign">+</span><mat-icon>phone</mat-icon>
-    </div>
-  </div>
-
-  <div *ngIf="gameStatus == 1" class="mid-container">
-    <div class="condition-block condition" (click)="getAnswer('left')">
-      <div *ngIf="taskLeft">
-        <mat-icon>{{ icons[taskLeft.left] }}</mat-icon><span class="sign">{{ getSign(taskLeft.operator) }}</span><mat-icon>{{ icons[taskLeft.right] }}</mat-icon>
-        <!-- {{ taskLeft.left }} {{ getSign(taskLeft.operator) }} {{ taskLeft.right }} -->
+    <div *ngIf="gameStatus == 0" class="mid-container">
+      <div class="condition-block condition" (click)="showMessage('First of all, start the game!')">
+        <div *ngIf="!showEmoji">
+          <mat-icon>accessibility</mat-icon><span class="sign accent">+</span><mat-icon>anchor</mat-icon>
+        </div>
+        <div *ngIf="showEmoji">
+          <span class="emoji">{{ emoji[0] }}</span><span class="sign">+</span><span class="emoji">{{ emoji[2] }}</span>
+        </div>
+      </div>
+      <div class="condition-block">?</div>
+      <div class="condition-block condition" (click)="showMessage('First of all, start the game!')">
+        <div *ngIf="!showEmoji">
+          <mat-icon>build</mat-icon><span class="sign accent">+</span><mat-icon>phone</mat-icon>
+        </div>
+        <div *ngIf="showEmoji">
+          <span class="emoji">{{ emoji[1] }}</span><span class="sign">+</span><span class="emoji">{{ emoji[3] }}</span>
+        </div>
       </div>
     </div>
-    <div class="condition-block">?</div>
-    <div class="condition-block condition" (click)="getAnswer('right')">
-      <div *ngIf="taskRight">
-        <mat-icon>{{ icons[taskRight.left] }}</mat-icon><span class="sign">{{ getSign(taskRight.operator) }}</span><mat-icon>{{ icons[taskRight.right] }}</mat-icon>
-        <!-- {{ taskRight.left }} {{ getSign(taskRight.operator) }} {{ taskRight.right }} -->
+
+    <div *ngIf="gameStatus == 1" class="mid-container">
+      <div class="condition-block condition" (click)="getAnswer('left')">
+        <div *ngIf="taskLeft">
+
+          <div *ngIf="showEmoji">
+            <span class="emoji">{{ emoji[taskLeft.left] }}</span>
+            <span class="sign">{{ getSign(taskLeft.operator) }}</span>
+            <span class="emoji">{{ emoji[taskLeft.right] }}</span>
+          </div>
+
+          <div *ngIf="!showEmoji">
+            <mat-icon>{{ icons[taskLeft.left] }}</mat-icon>
+            <span class="sign accent">{{ getSign(taskLeft.operator) }}</span>
+            <mat-icon>{{ icons[taskLeft.right] }}</mat-icon>
+          </div>
+          <!-- {{ taskLeft.left }} {{ getSign(taskLeft.operator) }} {{ taskLeft.right }} -->
+        </div>
+      </div>
+
+      <div class="condition-block">?</div>
+
+      <div class="condition-block condition" (click)="getAnswer('right')">
+        <div *ngIf="taskRight">
+
+          <div *ngIf="showEmoji">
+            <span class="emoji">{{ emoji[taskRight.left] }}</span>
+            <span class="sign">{{ getSign(taskRight.operator) }}</span>
+            <span class="emoji">{{ emoji[taskRight.right] }}</span>
+          </div>
+
+          <div *ngIf="!showEmoji">
+            <mat-icon>{{ icons[taskRight.left] }}</mat-icon>
+            <span class="sign accent">{{ getSign(taskRight.operator) }}</span>
+            <mat-icon>{{ icons[taskRight.right] }}</mat-icon>
+          </div>
+          <!-- {{ taskRight.left }} {{ getSign(taskRight.operator) }} {{ taskRight.right }} -->
+        </div>
       </div>
     </div>
-  </div>
 
-  <div *ngIf="gameStatus == 0" class="bot-container">
-      <div *ngFor="let i of [].constructor(10); let n = index" class="value-pair">
-        <div class="value-pair-val"><mat-icon>{{ icons[n] }}</mat-icon></div>
+    <div *ngIf="gameStatus == 0" class="bot-container">
+        <div *ngFor="let i of [].constructor(10); let n = index" class="value-pair">
+          <div class="value-pair-val">
+            <span *ngIf="showEmoji" class="emoji">{{ emoji[n] }}</span>
+            <mat-icon *ngIf="!showEmoji">{{ icons[n] }}</mat-icon>
+          </div>
+          <div class="value-pair-val">{{ n }}</div>
+        </div>
+    </div>
+
+    <div *ngIf="gameStatus == 1" class="bot-container">
+      <div *ngFor="let n of nums" class="value-pair">
+        <div class="value-pair-val">
+          <span *ngIf="showEmoji" class="emoji">{{ emoji[n] }}</span>
+          <mat-icon *ngIf="!showEmoji">{{ icons[n] }}</mat-icon>
+        </div>
         <div class="value-pair-val">{{ n }}</div>
       </div>
-  </div>
-
-  <div *ngIf="gameStatus == 1" class="bot-container">
-    <div *ngFor="let n of nums" class="value-pair">
-      <div class="value-pair-val"><mat-icon>{{ icons[n] }}</mat-icon></div>
-      <div class="value-pair-val">{{ n }}</div>
     </div>
+
   </div>
 
+  <div class="credits">
+    by <a href="http://smyrnov.pro/" target="_blank">Mykyta Smyrnov</a>
+  </div>
 
 </div>
